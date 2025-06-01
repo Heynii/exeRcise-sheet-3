@@ -98,7 +98,30 @@ pixar_films_clean
 
 The possible values of 'film_rating' are **G, PG**. They represent the age classification on the films. (**G** means the movie is suitable for all ages. **PG** means parental guidance is suggested for younger audiences.) We converted this variable into a factor because it is categorical, not numerical. This is appropriate for grouping and visualization.
 
-b)  Inspect the film titles manually. Which films form a film series? A film series can be identified by a common word in the titles of the films, often in conjunction with a number in the title, e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which displays a list of the different series with the titles of the films and how many films belong to the series. Output the dataframe.
+### b)  Inspect the film titles manually. Which films form a film series? A film series can be identified by a common word in the titles of the films, often in conjunction with a number in the title, e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which displays a list of the different series with the titles of the films and how many films belong to the series. Output the dataframe.
+
+```{r}
+series_films <- pixar_films_clean %>%
+  filter(str_detect(film, "[0-9]")) %>%
+  mutate(series_key = str_trim(str_remove(film, "[0-9].*"))) %>%
+  distinct(series_key)
+
+series_summary <- pixar_films_clean %>% 
+  mutate(series = map_chr(film, function(title) {
+    key <- series_films$series_key[str_detect(title, series_films$series_key)]
+    if (length(key) > 0) key[1] else NA_character_
+  })) %>% 
+  filter(!is.na(series)) %>% 
+  group_by(series) %>% 
+  summarise(
+    titles = paste(film, collapse = ", "),
+    n_films = n()
+  ) %>% 
+  arrange(desc(n_films))
+
+series_summary
+```
+
 
 c)  Load the `public_response` dataframe into R. Convert the `cinema_score` variable into a factor while ensuring the factor levels are defined in ascending order, from the lowest to the highest score. Combine `public_response` with the `pixar_films` dataset using an appropriate merge variable.
 
