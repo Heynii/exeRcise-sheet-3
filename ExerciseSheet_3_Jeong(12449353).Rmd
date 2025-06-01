@@ -60,11 +60,11 @@ a commit after task *1d*, *1e* etc.
 
 For this task you will upload your solution to GitHub.
 
-### a)  Create a new repository on GitHub in your account named `exeRcise-sheet-3`. Make sure you create a **public repository** so we are able to see it for grading. Add the link to the repository below: https://github.com/Heynii/exeRcise-sheet-3.git
+### a) Create a new repository on GitHub in your account named `exeRcise-sheet-3`. Make sure you create a **public repository** so we are able to see it for grading. Add the link to the repository below: <https://github.com/Heynii/exeRcise-sheet-3.git>
 
-### b)  Push your code to this new repository by copying and executing the snippet on github listed under `…or push an existing repository from the command line`.
+### b) Push your code to this new repository by copying and executing the snippet on github listed under `…or push an existing repository from the command line`.
 
-c)  Regularly push your latest changes to GitHub again and especially do so when you are finished with this sheet.
+### c) Regularly push your latest changes to GitHub again and especially do so when you are finished with this sheet.
 
 ## Exercise 3: Pixar Films (4 Points)
 
@@ -74,9 +74,29 @@ Link: <https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-0
 
 For small datasets like these adding them to git is not a problem.
 
-a)  Load the `pixar_films` dataset into R. Clean the dataset by removing films without a title. Inspect the variable `film_rating`. What are the possible values and what do they mean? Create a factor variable for the film rating. Why is this appropriate?
+### a)  Load the `pixar_films` dataset into R. Clean the dataset by removing films without a title. Inspect the variable `film_rating`. What are the possible values and what do they mean? Create a factor variable for the film rating. Why is this appropriate?
 
-<!-- -->
+```{r}
+library(tidyverse)
+
+pixar_films <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/pixar_films.csv')
+public_response <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/public_response.csv')
+```
+
+```{r}
+pixar_films_clean <- pixar_films %>% 
+  filter(!is.na(film) & film !="")
+
+unique(pixar_films_clean$film_rating)
+```
+
+```{r}
+pixar_films_clean$film_rating <- as.factor(pixar_films_clean$film_rating)
+
+pixar_films_clean
+```
+
+The possible values of 'film_rating' are **G, PG**. They represent the age classification on the films. (**G** means the movie is suitable for all ages. **PG** means parental guidance is suggested for younger audiences.) We converted this variable into a factor because it is categorical, not numerical. This is appropriate for grouping and visualization.
 
 b)  Inspect the film titles manually. Which films form a film series? A film series can be identified by a common word in the titles of the films, often in conjunction with a number in the title, e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which displays a list of the different series with the titles of the films and how many films belong to the series. Output the dataframe.
 
