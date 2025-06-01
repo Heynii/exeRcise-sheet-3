@@ -3,7 +3,11 @@ title: "Exercise #3"
 subtitle: "Fortgeschrittene Statistische Software für NF"
 author: "Hyein Jeong(12449353)"
 date: "`r Sys.Date()`"
-output: distill::distill_article
+output: 
+  distill::distill_article:
+    toc: true
+    code_folding: show
+    toc_depth: 2
 ---
 
 ## General Remarks
@@ -140,7 +144,7 @@ pixar_all_sorted <- pixar_all %>%
 head(pixar_all_sorted, 10)
 ```
 
-d)  Choose one of the variables representing the public response and create a bar plot for the films belonging to a series. Here are the details of the plot:
+### d)  Choose one of the variables representing the public response and create a bar plot for the films belonging to a series. Here are the details of the plot:
 
     -   The film series are represented on the x-axis.
     -   Your chosen public response variable is displayed on the y-axis.
@@ -148,6 +152,34 @@ d)  Choose one of the variables representing the public response and create a ba
     -   A title and axis labels for context.
 
     What do you notice when comparing the scores of the films in a series? Do you see any patterns?
+
+```{r fig.cap="Rotten Tomatoes scores for Pixar film series (ordered by release date)"}
+
+library(ggplot2)
+
+pixar_series_only <- pixar_all %>% 
+  filter(film %in% unlist(str_split(series_summary$titles, ", "))) %>% 
+  left_join(series_summary %>% select(series, titles), by = character()) %>%
+  filter(str_detect(titles, film)) %>% 
+  select(-titles)
+
+plot_data <- pixar_series_only %>% 
+  arrange(series, release_date)
+
+ggplot(plot_data, 
+       aes(
+         x = reorder(film, release_date), 
+         y = rotten_tomatoes, 
+         fill = series
+       )) + geom_col() +
+  facet_wrap(~ series, scales = "free_x") +
+  labs(title = "Rotten Tomatoes Scores of Pixar Series Films",
+       x = "Film",
+       y = "Rotten Tomatoes Score") + theme_minimal() + theme(axis.text.x = element_text(angle = 60, hjust = 0.9))
+```
+When comparing the scores, I noticed that Toy Story films consistently received high scores. 
+In contrast, the Cars series shows a decline in Rotten Tomatoes ratings over the sequels. 
+The Incredibles films both received high scores, but the second one slightly lower than the first. 
 
 ## Exercise 4: Open Analysis (4 points)
 
