@@ -80,7 +80,6 @@ For small datasets like these adding them to git is not a problem.
 library(tidyverse)
 
 pixar_films <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/pixar_films.csv')
-public_response <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/public_response.csv')
 ```
 
 ```{r}
@@ -122,8 +121,24 @@ series_summary <- pixar_films_clean %>%
 series_summary
 ```
 
+The following films form series, based on shared words and numbers in their titles. 
+The table shows each series, the in cluded films, and how many films belong to each series.
 
-c)  Load the `public_response` dataframe into R. Convert the `cinema_score` variable into a factor while ensuring the factor levels are defined in ascending order, from the lowest to the highest score. Combine `public_response` with the `pixar_films` dataset using an appropriate merge variable.
+### c)  Load the `public_response` dataframe into R. Convert the `cinema_score` variable into a factor while ensuring the factor levels are defined in ascending order, from the lowest to the highest score. Combine `public_response` with the `pixar_films` dataset using an appropriate merge variable.
+
+```{r}
+public_response <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/public_response.csv')
+
+public_response <- public_response %>% 
+  mutate(cinema_score = factor(cinema_score, levels = c("A-", "A", "A+"), ordered = TRUE))
+
+pixar_all <- left_join(pixar_films_clean, public_response, by = "film")
+
+pixar_all_sorted <- pixar_all %>% 
+  arrange(cinema_score)
+
+head(pixar_all_sorted, 10)
+```
 
 d)  Choose one of the variables representing the public response and create a bar plot for the films belonging to a series. Here are the details of the plot:
 
