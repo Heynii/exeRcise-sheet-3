@@ -52,9 +52,9 @@ Weaknesses
 
 -   Git can be confusing for beginners due to complex commands and concepts.
 
--   Git is not ideal for large or binary files like images or videos.
+-   Git is not ideal for large or binary files like images or videos (non-text files).
 
-e)  Knit this exercise sheet. Some new files will automatically be generated when knitting the sheet e.g. the HTML page. Ignore these files, as we only want to track the source files themselves. You can, but don't need to create a `.gitignore` file. Just do not commit these files manually.
+### e)  Knit this exercise sheet. Some new files will automatically be generated when knitting the sheet e.g. the HTML page. Ignore these files, as we only want to track the source files themselves. You can, but don't need to create a `.gitignore` file. Just do not commit these files manually.
 
 ## Exercise 2: Putting your Repository on GitHub (3 Points)
 
