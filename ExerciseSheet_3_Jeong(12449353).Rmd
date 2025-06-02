@@ -148,7 +148,9 @@ head(pixar_all_sorted, 10)
 ```         
 -   The film series are represented on the x-axis.
 -   Your chosen public response variable is displayed on the y-axis.
--   Each film in the series is represented as a separate bar. Bars are grouped by film under their respective series on the x-axis. Order the bars within a series according to the release date of the films.
+-   Each film in the series is represented as a separate bar. 
+    Bars are grouped by film under their respective series on the x-axis. 
+    Order the bars within a series according to the release date of the films.
 -   A title and axis labels for context.
 
 What do you notice when comparing the scores of the films in a series? Do you see any patterns?
@@ -201,7 +203,7 @@ download.file(
 ### c) Put the name / title of the dataset and a link to it below.
 
 -   Dataset Name: Share of food lost by food type and region (FAO, 2019)
--   Link: [https://github.com/owid/owid-datasets/tree/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)](https://github.com/owid/owid-datasets/tree/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)){.uri}
+-   Link: [Link to my GitHub repo](https://github.com/Heynii/exeRcise-sheet-3.git)
 
 ### d) Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
 
@@ -255,7 +257,7 @@ region_data <- region_data %>%
 region_data
 ```
 
-f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
+### f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
 ```{r}
 food_plot_data <- food_group_data %>%
@@ -269,7 +271,7 @@ region_plot_data <- region_data %>%
 combined_plot_data <- bind_rows(food_plot_data, region_plot_data)
 ```
 
-```{r fig.cap="Figure 1. Food loss by food type and region, compared to the global average"}
+```{r fig.cap="Food loss by food type and region, compared to the global average"}
 ggplot(combined_plot_data, aes(x = reorder(name, loss), y = loss, fill = compared_to_avg)) +
   geom_col() +
   facet_wrap(~ group, scales = "free") +
