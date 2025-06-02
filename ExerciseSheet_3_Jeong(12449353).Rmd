@@ -209,7 +209,55 @@ download.file(
 
 Food loss not only threatens food security but also wastes natural resources, harms the environment, and worsens global inequality. Understanding where and what types of food are lost the most can help guide policies to reduce waste and improve sustainability.
 
-e)  Use R to answer your chosen question. Please limit your analysis to the functions and techniques we have covered so far in the course. You are **not expected** to use advanced statistical models or external packages which haven't been introduced.
+### e)  Use R to answer your chosen question. Please limit your analysis to the functions and techniques we have covered so far in the course. You are **not expected** to use advanced statistical models or external packages which haven't been introduced.
+
+```{r}
+food_group_loss <- food_loss %>%
+  select(Entity, Year, starts_with("Percentage of food loss by food group")) %>%
+  pivot_longer(
+    cols = starts_with("Percentage of food loss by food group"),
+    names_to = "food_type",
+    values_to = "loss_percentage"
+  ) %>%
+  mutate(
+    food_type = str_remove(food_type, "Percentage of food loss by food group \\(FAO, 2019\\) - "),
+    loss_percentage = as.numeric(loss_percentage)
+  ) %>% filter(!is.na(loss_percentage), Entity != "World")
+
+food_group_loss
+```
+
+```{r}
+region_loss <- food_loss %>%
+  select(Entity, Year, starts_with("Percentage of food loss by region")) %>%
+  pivot_longer(
+    cols = starts_with("Percentage of food loss by region"),
+    names_to = "region",
+    values_to = "loss_percentage"
+  ) %>%
+  mutate(
+    region = str_remove(region, "Percentage of food loss by region \\(FAO, 2019\\) - "),
+    loss_percentage = as.numeric(loss_percentage)
+  ) %>% filter(!is.na(loss_percentage), Entity != "World")
+
+region_loss
+```
+```{r}
+food_summary <- food_group_loss %>%
+  group_by(food_type) %>%
+  summarise(avg_loss = mean(loss_percentage), .groups = "drop") %>%
+  arrange(desc(avg_loss))
+
+food_summary
+```
+```{r}
+region_summary <- region_loss %>%
+  group_by(region) %>%
+  summarise(avg_loss = mean(loss_percentage), .groups = "drop") %>%
+  arrange(desc(avg_loss))
+
+region_summary
+```
 
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
