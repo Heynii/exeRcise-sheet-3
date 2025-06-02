@@ -78,7 +78,7 @@ Link: <https://github.com/rfordatascience/tidytuesday/tree/main/data/2025/2025-0
 
 For small datasets like these adding them to git is not a problem.
 
-### a)  Load the `pixar_films` dataset into R. Clean the dataset by removing films without a title. Inspect the variable `film_rating`. What are the possible values and what do they mean? Create a factor variable for the film rating. Why is this appropriate?
+### a) Load the `pixar_films` dataset into R. Clean the dataset by removing films without a title. Inspect the variable `film_rating`. What are the possible values and what do they mean? Create a factor variable for the film rating. Why is this appropriate?
 
 ```{r}
 library(tidyverse)
@@ -101,7 +101,7 @@ pixar_films_clean
 
 The possible values of 'film_rating' are **G, PG**. They represent the age classification on the films. (**G** means the movie is suitable for all ages. **PG** means parental guidance is suggested for younger audiences.) We converted this variable into a factor because it is categorical, not numerical. This is appropriate for grouping and visualization.
 
-### b)  Inspect the film titles manually. Which films form a film series? A film series can be identified by a common word in the titles of the films, often in conjunction with a number in the title, e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which displays a list of the different series with the titles of the films and how many films belong to the series. Output the dataframe.
+### b) Inspect the film titles manually. Which films form a film series? A film series can be identified by a common word in the titles of the films, often in conjunction with a number in the title, e.g. "Despicable Me" and "Despicable Me 2". Create a dataframe which displays a list of the different series with the titles of the films and how many films belong to the series. Output the dataframe.
 
 ```{r}
 series_films <- pixar_films_clean %>%
@@ -125,10 +125,9 @@ series_summary <- pixar_films_clean %>%
 series_summary
 ```
 
-The following films form series, based on shared words and numbers in their titles. 
-The table shows each series, the in cluded films, and how many films belong to each series.
+The following films form series, based on shared words and numbers in their titles. The table shows each series, the in cluded films, and how many films belong to each series.
 
-### c)  Load the `public_response` dataframe into R. Convert the `cinema_score` variable into a factor while ensuring the factor levels are defined in ascending order, from the lowest to the highest score. Combine `public_response` with the `pixar_films` dataset using an appropriate merge variable.
+### c) Load the `public_response` dataframe into R. Convert the `cinema_score` variable into a factor while ensuring the factor levels are defined in ascending order, from the lowest to the highest score. Combine `public_response` with the `pixar_films` dataset using an appropriate merge variable.
 
 ```{r}
 public_response <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-03-11/public_response.csv')
@@ -144,14 +143,16 @@ pixar_all_sorted <- pixar_all %>%
 head(pixar_all_sorted, 10)
 ```
 
-### d)  Choose one of the variables representing the public response and create a bar plot for the films belonging to a series. Here are the details of the plot:
+### d) Choose one of the variables representing the public response and create a bar plot for the films belonging to a series. Here are the details of the plot:
 
-    -   The film series are represented on the x-axis.
-    -   Your chosen public response variable is displayed on the y-axis.
-    -   Each film in the series is represented as a separate bar. Bars are grouped by film under their respective series on the x-axis. Order the bars within a series according to the release date of the films.
-    -   A title and axis labels for context.
+```         
+-   The film series are represented on the x-axis.
+-   Your chosen public response variable is displayed on the y-axis.
+-   Each film in the series is represented as a separate bar. Bars are grouped by film under their respective series on the x-axis. Order the bars within a series according to the release date of the films.
+-   A title and axis labels for context.
 
-    What do you notice when comparing the scores of the films in a series? Do you see any patterns?
+What do you notice when comparing the scores of the films in a series? Do you see any patterns?
+```
 
 ```{r fig.cap="Rotten Tomatoes scores for Pixar film series (ordered by release date)"}
 
@@ -177,16 +178,16 @@ ggplot(plot_data,
        x = "Film",
        y = "Rotten Tomatoes Score") + theme_minimal() + theme(axis.text.x = element_text(angle = 60, hjust = 0.9))
 ```
-When comparing the scores, I noticed that Toy Story films consistently received high scores. 
-In contrast, the Cars series shows a decline in Rotten Tomatoes ratings over the sequels. 
-The Incredibles films both received high scores, but the second one slightly lower than the first. 
+
+When comparing the scores, I noticed that Toy Story films consistently received high scores. In contrast, the Cars series shows a decline in Rotten Tomatoes ratings over the sequels. The Incredibles films both received high scores, but the second one slightly lower than the first.
 
 ## Exercise 4: Open Analysis (4 points)
 
 This exercise is a bit more open-ended. You can choose any dataset from [Our World in Data](https://ourworldindata.org/) and analyze it, while determining the research question yourself.
 
-### a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets> and choose a dataset that interests you. You can have a look at <https://ourworldindata.org/> to gather some inspiration.
-### b)  Download the dataset and track it in git.
+### a) Go to <https://github.com/owid/owid-datasets/tree/master/datasets> and choose a dataset that interests you. You can have a look at <https://ourworldindata.org/> to gather some inspiration.
+
+### b) Download the dataset and track it in git.
 
 ```{r}
 food_loss <- read_csv("https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019).csv")
@@ -197,13 +198,19 @@ download.file(
 )
 ```
 
-### c)  Put the name / title of the dataset and a link to it below.
+### c) Put the name / title of the dataset and a link to it below.
 
 -   Dataset Name: Share of food lost by food type and region (FAO, 2019)
--   Link: <https://github.com/owid/owid-datasets/tree/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)>
+-   Link: [https://github.com/owid/owid-datasets/tree/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)](https://github.com/owid/owid-datasets/tree/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)){.uri}
 
-d)  Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
+### d) Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
+
+***Question: Which food types are most frequently lost across different regions, and where is the loss most severe?***
+
+Food loss not only threatens food security but also wastes natural resources, harms the environment, and worsens global inequality. Understanding where and what types of food are lost the most can help guide policies to reduce waste and improve sustainability.
+
 e)  Use R to answer your chosen question. Please limit your analysis to the functions and techniques we have covered so far in the course. You are **not expected** to use advanced statistical models or external packages which haven't been introduced.
+
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
 ## Final Note
