@@ -255,10 +255,40 @@ region_data <- region_data %>%
 region_data
 ```
 
-
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
+```{r}
+food_plot_data <- food_group_data %>%
+  select(name = food_type, loss = food_group_loss, compared_to_avg) %>%
+  mutate(group = "Food Type")
 
+region_plot_data <- region_data %>%
+  select(name = region, loss = region_loss, compared_to_avg) %>%
+  mutate(group = "Region")
+
+combined_plot_data <- bind_rows(food_plot_data, region_plot_data)
+```
+
+```{r fig.cap="Figure 1. Food loss by food type and region, compared to the global average"}
+ggplot(combined_plot_data, aes(x = reorder(name, loss), y = loss, fill = compared_to_avg)) +
+  geom_col() +
+  facet_wrap(~ group, scales = "free") +
+  coord_flip() +
+  labs(
+    title = "Food Loss by Food Type and Region (Compared to Global Average)",
+    x = "",
+    y = "Loss Percentage (%)",
+    fill = "Compared to Avg"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 9),
+    plot.title.position = "plot",
+    plot.title = element_text(hjust = 0.5),
+    legend.title = element_text(size = 10, hjust = 0.1),
+    legend.text = element_text(size = 10)
+  )
+```
 
 ## Final Note
 
