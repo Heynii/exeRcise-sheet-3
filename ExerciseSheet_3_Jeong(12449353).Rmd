@@ -205,26 +205,59 @@ download.file(
 
 ### d) Come up with a (research) question you want to answer with the data and briefly explain why you believe this is an interesting question within one sentence. It should be a question that can be answered with the dataset and using R.
 
-***Question: How do countries differ in their food loss rates by food group and by region, and can we detect countries that deviate significantly from global patterns in either dimension?***
+***Question: How do global food loss rates differ across food groups and world regions, and are there any food types or regions that show significantly higher losses than the overall pattern?***
 
 Food loss not only threatens food security but also wastes natural resources, harms the environment, and worsens global inequality. Understanding where and what types of food are lost the most can help guide policies to reduce waste and improve sustainability.
 
 ### e)  Use R to answer your chosen question. Please limit your analysis to the functions and techniques we have covered so far in the course. You are **not expected** to use advanced statistical models or external packages which haven't been introduced.
 
+```{r}
+food_loss <- read_csv("food_loss_fao2019.csv")
+
+food_loss <- food_loss %>% 
+  rename(
+    food_group_loss = `Percentage of food loss by food group (FAO, 2019)`,
+    region_loss = `Percentage of food loss by region (FAO, 2019)`
+  )
+```
+
+```{r}
+food_group_data <- food_loss %>% 
+  filter(!is.na(food_group_loss)) %>% 
+  select(Entity, food_group_loss) %>% 
+  rename(food_type = Entity)
+
+overall_avg <- mean(food_group_data$food_group_loss, na.rm = TRUE)
+
+food_group_data <- food_group_data %>%
+  mutate(
+    overall_avg = overall_avg,
+    compared_to_avg = if_else(food_group_loss > overall_avg, "Above Average", "Below Average")
+  )
+
+food_group_data
+```
+
+```{r}
+region_data <- food_loss %>%
+  filter(!is.na(region_loss), Entity != "World") %>%
+  select(Entity, region_loss) %>%
+  rename(region = Entity)
+
+overall_region_avg <- mean(region_data$region_loss, na.rm = TRUE)
+
+region_data <- region_data %>%
+  mutate(
+    overall_avg = overall_region_avg,
+    compared_to_avg = if_else(region_loss > overall_region_avg, "Above Average", "Below Average")
+  )
+
+region_data
+```
+
 
 f)  Create a meaningful plot / figure with the dataset. Make sure to provide a figure caption (via the chunk options / Rmarkdown) and correctly label the figure.
 
-```{r fig.cap="Average food loss percentage by food type (FAO, 2019)"}
-ggplot(food_summary, 
-       aes(
-         x = reorder(food_type, avg_loss),
-         y = avg_loss
-       )) + geom_col() + labs(
-         title = "Average Food Loss by Food Type",
-         x = "Food Type",
-         y = "Average % Lost"
-       ) + theme_minimal()
-```
 
 
 ## Final Note
