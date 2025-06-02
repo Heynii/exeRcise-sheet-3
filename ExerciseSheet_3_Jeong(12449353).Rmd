@@ -185,8 +185,18 @@ The Incredibles films both received high scores, but the second one slightly low
 
 This exercise is a bit more open-ended. You can choose any dataset from [Our World in Data](https://ourworldindata.org/) and analyze it, while determining the research question yourself.
 
-a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets> and choose a dataset that interests you. You can have a look at <https://ourworldindata.org/> to gather some inspiration.
-b)  Download the dataset and track it in git.
+### a)  Go to <https://github.com/owid/owid-datasets/tree/master/datasets> and choose a dataset that interests you. You can have a look at <https://ourworldindata.org/> to gather some inspiration.
+### b)  Download the dataset and track it in git.
+
+```{r}
+food_loss <- read_csv("https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019).csv")
+
+download.file(
+  url = "https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019)/Share%20of%20food%20lost%20by%20food%20type%20and%20region%20(FAO%2C%202019).csv",
+  destfile = "~/Library/Mobile Documents/com~apple~CloudDocs/LMU/Semester/SoSe 25/ProgR/Exercise/Graded Exercise 3/2025-exeRcise-sheet-3/food_loss_fao2019.csv"
+)
+```
+
 c)  Put the name / title of the dataset and a link to it below.
 
 -   Dataset Name: ...
